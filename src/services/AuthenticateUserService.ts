@@ -1,10 +1,11 @@
 // Receber o code(string)
 //Recuperar o acess_token no github
 //Recuperando informações do usuario logado
-//Veruficar se o usuario eciste no DB
-// se sim, gerar um token. Se não, add no DB e gera um token pra ele
+//Veruficar se o usuario existe no DB
+// se sim, gerar um token. Se não, add no DB e gerar um token pra ele
 //Retornar o token com as infos do usuario
 import axios from 'axios';
+import prismaClient from '../prisma';
 
 interface IAccessTokenResponse {
   access_token: string;
@@ -38,6 +39,24 @@ class AuthenticateUserService {
       }
     })
     
+    const { name, id, login, avatar_url } = response.data
+
+    let user = await prismaClient.user.findFirst({ 
+      where: {
+        github_id: id,
+      }
+    })
+
+    if(!user) {
+      user = await prismaClient.user.create({
+        data: {
+          name,
+          login,
+          avatar_url,
+          github_id: id
+        }
+      })
+    }
     return response.data;
   }
 }
