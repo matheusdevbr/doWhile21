@@ -37,5 +37,5 @@ app.get("/signin/callback", (request, response) => {
   return response.json(code);
 }) //rota de callback
 
-app.listen(4000, () => console.log('🚀 Server is running on PORT 4000'));
+serverHttp.listen(4000, () => console.log('🚀 Server is running on PORT 4000'));
 
