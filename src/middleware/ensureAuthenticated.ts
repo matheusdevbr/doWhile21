@@ -16,11 +16,11 @@ export function ensureAuthenticated(
       errorCode: "token.invalid",
     })
   }
-
   //Bearer 4894565646548465465
   // [0] Bearer
   // [1] 4894565646548465465
   const [,token] = authToken.split(" ")
+
  try {
    const { sub } = verify(token, process.env.JWT_SECRET) as IPayLoad
 
